@@ -6,14 +6,13 @@ reference distribution to detect feature drift and prediction drift.
 
 import json
 from datetime import datetime
-from pathlib import Path
 
 import boto3
 import numpy as np
 import pandas as pd
 from scipy import stats
 
-from src.utils.config import load_params, get_project_root, get_aws_config
+from src.utils.config import get_aws_config, get_project_root, load_params
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -96,7 +95,8 @@ def run_drift_detection():
 
     if results["drifted"]:
         logger.warning(
-            f"DRIFT DETECTED: {results['n_features_drifted']}/{results['n_features_total']} features"
+            f"DRIFT DETECTED: {results['n_features_drifted']}"
+            f"/{results['n_features_total']} features"
         )
         _send_drift_alarm(results, params)
     else:

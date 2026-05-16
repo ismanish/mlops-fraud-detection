@@ -38,9 +38,7 @@ class TestPreprocessing:
 
         df = self._make_sample_data(n=10000)
         y = df["Class"]
-        _, _, y_train, y_test = train_test_split(
-            df, y, test_size=0.2, stratify=y, random_state=42
-        )
+        _, _, y_train, y_test = train_test_split(df, y, test_size=0.2, stratify=y, random_state=42)
         train_ratio = y_train.mean()
         test_ratio = y_test.mean()
         assert abs(train_ratio - test_ratio) < 0.01

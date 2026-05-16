@@ -18,7 +18,7 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import StratifiedKFold
 
-from src.utils.config import load_params, get_project_root
+from src.utils.config import get_project_root, load_params
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -58,7 +58,8 @@ def train_model() -> Path:
 
         model = xgb.XGBClassifier(**model_params)
         model.fit(
-            X_train, y_train,
+            X_train,
+            y_train,
             eval_set=[(X_val, y_val)],
             verbose=False,
         )
@@ -90,9 +91,7 @@ def train_model() -> Path:
         mlflow.log_metric("cv_auc_roc_std", float(np.std(cv_scores)))
         logger.info(f"CV AUC-ROC: {np.mean(cv_scores):.4f} +/- {np.std(cv_scores):.4f}")
 
-        feature_importance = dict(
-            zip(X_train.columns, model.feature_importances_.tolist())
-        )
+        feature_importance = dict(zip(X_train.columns, model.feature_importances_.tolist()))
         top_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)[:10]
         logger.info(f"Top features: {top_features}")
 

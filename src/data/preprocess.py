@@ -3,13 +3,12 @@
 from pathlib import Path
 
 import joblib
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 from src.data.validate import validate_data
-from src.utils.config import load_params, get_project_root
+from src.utils.config import get_project_root, load_params
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -33,7 +32,8 @@ def preprocess_data() -> dict[str, Path]:
     y = df[target_col].astype(int)
 
     X_train_val, X_test, y_train_val, y_test = train_test_split(
-        X, y,
+        X,
+        y,
         test_size=params["data"]["test_size"],
         random_state=params["data"]["random_state"],
         stratify=y,
@@ -41,7 +41,8 @@ def preprocess_data() -> dict[str, Path]:
 
     relative_val_size = params["data"]["val_size"] / (1 - params["data"]["test_size"])
     X_train, X_val, y_train, y_val = train_test_split(
-        X_train_val, y_train_val,
+        X_train_val,
+        y_train_val,
         test_size=relative_val_size,
         random_state=params["data"]["random_state"],
         stratify=y_train_val,
@@ -55,8 +56,12 @@ def preprocess_data() -> dict[str, Path]:
 
     output_files = {}
     for name, data in [
-        ("X_train", X_train), ("X_val", X_val), ("X_test", X_test),
-        ("y_train", y_train), ("y_val", y_val), ("y_test", y_test),
+        ("X_train", X_train),
+        ("X_val", X_val),
+        ("X_test", X_test),
+        ("y_train", y_train),
+        ("y_val", y_val),
+        ("y_test", y_test),
     ]:
         path = processed_dir / f"{name}.csv"
         data.to_csv(path, index=False)

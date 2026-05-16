@@ -1,4 +1,3 @@
-import pandas as pd
 import pytest
 
 from src.data.ingest import generate_synthetic_fraud_data

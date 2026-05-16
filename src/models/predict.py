@@ -1,12 +1,9 @@
 """Prediction module: loads model and returns fraud probability."""
 
-from pathlib import Path
-
 import joblib
-import numpy as np
 import pandas as pd
 
-from src.utils.config import load_params, get_project_root
+from src.utils.config import get_project_root
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)

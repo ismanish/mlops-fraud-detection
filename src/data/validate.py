@@ -1,21 +1,16 @@
 """Data validation: schema checks and statistical tests on ingested data."""
 
-from pathlib import Path
-
 import pandas as pd
-import pandera as pa
-from pandera import Column, Check, DataFrameSchema
+from pandera import Check, Column, DataFrameSchema
 
-from src.utils.config import load_params, get_project_root
+from src.utils.config import get_project_root, load_params
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
 def get_schema() -> DataFrameSchema:
-    v_columns = {
-        f"V{i}": Column(float, nullable=False) for i in range(1, 29)
-    }
+    v_columns = {f"V{i}": Column(float, nullable=False) for i in range(1, 29)}
     return DataFrameSchema(
         columns={
             "Time": Column(float, Check.ge(0), nullable=False),

@@ -9,13 +9,15 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.utils.config import load_params, get_project_root
+from src.utils.config import get_project_root, load_params
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
-def generate_synthetic_fraud_data(n_samples: int = 284807, fraud_ratio: float = 0.00173) -> pd.DataFrame:
+def generate_synthetic_fraud_data(
+    n_samples: int = 284807, fraud_ratio: float = 0.00173
+) -> pd.DataFrame:
     """Generate synthetic data mimicking the Kaggle credit card fraud dataset structure."""
     rng = np.random.default_rng(42)
     n_fraud = int(n_samples * fraud_ratio)
@@ -55,7 +57,8 @@ def ingest_data() -> Path:
 
     df.to_csv(raw_path, index=False)
     logger.info(f"Data saved to {raw_path} — shape: {df.shape}")
-    logger.info(f"Fraud ratio: {df['Class'].mean():.4f} ({df['Class'].sum():.0f} fraud / {len(df)} total)")
+    fraud_count = int(df["Class"].sum())
+    logger.info(f"Fraud ratio: {df['Class'].mean():.4f} ({fraud_count} fraud / {len(df)} total)")
 
     return raw_path
 
