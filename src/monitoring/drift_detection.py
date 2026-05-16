@@ -6,6 +6,7 @@ reference distribution to detect feature drift and prediction drift.
 
 import json
 from datetime import datetime
+from typing import Any
 
 import boto3
 import numpy as np
@@ -30,8 +31,13 @@ class DriftDetector:
             for col in df.select_dtypes(include=[np.number]).columns
         }
 
-    def detect_drift(self, current_data: pd.DataFrame) -> dict:
-        results = {"timestamp": datetime.utcnow().isoformat(), "features": {}, "drifted": False}
+    def detect_drift(self, current_data: pd.DataFrame) -> dict[str, Any]:
+        features: dict[str, Any] = {}
+        results: dict[str, Any] = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "features": features,
+            "drifted": False,
+        }
 
         for col in self.reference.select_dtypes(include=[np.number]).columns:
             if col not in current_data.columns:
@@ -41,7 +47,7 @@ class DriftDetector:
             psi = self._calculate_psi(self.reference[col], current_data[col])
 
             is_drifted = bool(ks_pvalue < self.threshold)
-            results["features"][col] = {
+            features[col] = {
                 "ks_statistic": round(float(ks_stat), 6),
                 "ks_pvalue": round(float(ks_pvalue), 6),
                 "psi": round(float(psi), 6),
@@ -52,10 +58,10 @@ class DriftDetector:
             if is_drifted:
                 results["drifted"] = True
 
-        n_drifted = sum(1 for f in results["features"].values() if f["drifted"])
+        n_drifted = sum(1 for f in features.values() if f["drifted"])
         results["n_features_drifted"] = n_drifted
-        results["n_features_total"] = len(results["features"])
-        results["drift_ratio"] = round(n_drifted / max(len(results["features"]), 1), 4)
+        results["n_features_total"] = len(features)
+        results["drift_ratio"] = round(n_drifted / max(len(features), 1), 4)
 
         return results
 

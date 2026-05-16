@@ -1,16 +1,17 @@
 import os
 from pathlib import Path
+from typing import Any
 
 import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
-def load_params(path: str | None = None) -> dict:
+def load_params(path: str | None = None) -> dict[str, Any]:
     if path is None:
         path = str(PROJECT_ROOT / "params.yaml")
     with open(path) as f:
-        return yaml.safe_load(f)
+        return dict(yaml.safe_load(f))
 
 
 def get_project_root() -> Path:

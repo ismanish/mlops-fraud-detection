@@ -40,6 +40,7 @@ def predict(features: dict | pd.DataFrame) -> dict:
     if "Time" in features.columns:
         features = features.drop(columns=["Time"])
 
+    assert _model is not None
     probability = float(_model.predict_proba(features)[:, 1][0])
     prediction = int(probability >= 0.5)
 
@@ -60,6 +61,7 @@ def predict_batch(df: pd.DataFrame) -> pd.DataFrame:
     if "Time" in features.columns:
         features = features.drop(columns=["Time"])
 
+    assert _model is not None
     probabilities = _model.predict_proba(features)[:, 1]
     result = df.copy()
     result["fraud_probability"] = probabilities

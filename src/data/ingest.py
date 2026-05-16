@@ -45,7 +45,7 @@ def generate_synthetic_fraud_data(
 
 def ingest_data() -> Path:
     params = load_params()
-    raw_path = get_project_root() / params["data"]["raw_path"]
+    raw_path = Path(get_project_root() / params["data"]["raw_path"])
     raw_path.parent.mkdir(parents=True, exist_ok=True)
 
     if raw_path.exists():

@@ -60,3 +60,4 @@ infrastructure/terraform/.terraform.lock.hcl
 # Logs
 *.log
 logs/
+.playwright-mcp/
