@@ -15,7 +15,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install ruff black mypy
+        run: |
+          pip install ruff black mypy
+          pip install -r requirements.txt
       - name: Ruff
         run: ruff check src/ tests/
       - name: Black
