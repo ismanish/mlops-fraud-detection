@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# DVC
+/data/raw/*.csv
+/data/processed/*.csv
+/data/processed/*.pkl
+
+# Models
+models/*.pkl
+models/*.joblib
+*.model
+
+# AWS
+.aws/
+
+# Environment
+.env
+.env.*
+AWS_Credential
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Terraform
+infrastructure/terraform/.terraform/
+infrastructure/terraform/*.tfstate
+infrastructure/terraform/*.tfstate.backup
+infrastructure/terraform/.terraform.lock.hcl
+
+# Docker
+*.tar
+
+# Logs
+*.log
+logs/

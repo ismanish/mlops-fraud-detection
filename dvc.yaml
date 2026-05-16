@@ -1,0 +1,79 @@
+stages:
+  ingest:
+    cmd: python -m src.data.ingest
+    deps:
+      - src/data/ingest.py
+      - params.yaml
+    outs:
+      - data/raw/creditcard.csv:
+          cache: true
+    params:
+      - data.raw_path
+
+  validate:
+    cmd: python -m src.data.validate
+    deps:
+      - src/data/validate.py
+      - data/raw/creditcard.csv
+    params:
+      - data
+      - features
+
+  preprocess:
+    cmd: python -m src.data.preprocess
+    deps:
+      - src/data/preprocess.py
+      - src/data/validate.py
+      - data/raw/creditcard.csv
+    outs:
+      - data/processed/X_train.csv:
+          cache: true
+      - data/processed/X_val.csv:
+          cache: true
+      - data/processed/X_test.csv:
+          cache: true
+      - data/processed/y_train.csv:
+          cache: true
+      - data/processed/y_val.csv:
+          cache: true
+      - data/processed/y_test.csv:
+          cache: true
+      - data/processed/scaler.pkl:
+          cache: true
+    params:
+      - data
+      - features
+
+  train:
+    cmd: python -m src.models.train
+    deps:
+      - src/models/train.py
+      - data/processed/X_train.csv
+      - data/processed/y_train.csv
+      - data/processed/X_val.csv
+      - data/processed/y_val.csv
+    outs:
+      - models/model.pkl:
+          cache: true
+    params:
+      - model
+      - training
+    metrics:
+      - metrics/train_metrics.json:
+          cache: false
+
+  evaluate:
+    cmd: python -m src.models.evaluate
+    deps:
+      - src/models/evaluate.py
+      - models/model.pkl
+      - data/processed/X_test.csv
+      - data/processed/y_test.csv
+    metrics:
+      - metrics/eval_metrics.json:
+          cache: false
+    plots:
+      - metrics/confusion_matrix.json:
+          cache: false
+      - metrics/roc_curve.json:
+          cache: false

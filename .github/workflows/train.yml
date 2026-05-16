@@ -1,0 +1,90 @@
+name: Train & Evaluate Model
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for retraining"
+        required: true
+        default: "Scheduled retrain"
+  push:
+    branches: [main]
+    paths:
+      - "src/models/**"
+      - "src/data/**"
+      - "params.yaml"
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Run data ingestion
+        run: python -m src.data.ingest
+
+      - name: Run data validation
+        run: python -m src.data.validate
+
+      - name: Run preprocessing
+        run: python -m src.data.preprocess
+
+      - name: Train model
+        run: python -m src.models.train
+
+      - name: Evaluate model
+        run: python -m src.models.evaluate
+
+      - name: Run model quality tests
+        run: pytest tests/model/ -m model -v --tb=short
+
+      - name: Upload metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-metrics
+          path: metrics/
+
+      - name: Upload model
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: models/model.pkl
+
+  deploy-gate:
+    runs-on: ubuntu-latest
+    needs: train
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download metrics
+        uses: actions/download-artifact@v4
+        with:
+          name: model-metrics
+          path: metrics/
+      - name: Check quality gates
+        run: |
+          python3 -c "
+          import json
+          with open('metrics/eval_metrics.json') as f:
+              m = json.load(f)
+          print(f'AUC-ROC: {m[\"auc_roc\"]:.4f}')
+          print(f'F1: {m[\"f1\"]:.4f}')
+          print(f'Recall: {m[\"recall\"]:.4f}')
+          assert m['auc_roc'] >= 0.90, f'AUC-ROC too low: {m[\"auc_roc\"]}'
+          assert m['recall'] >= 0.70, f'Recall too low: {m[\"recall\"]}'
+          print('Quality gates passed — ready for deployment')
+          "

@@ -1,0 +1,185 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python -m src.data.ingest
+    deps:
+    - path: params.yaml
+      hash: md5
+      md5: b1f7455c38ae5d84287ded992ce84b11
+      size: 918
+    - path: src/data/ingest.py
+      hash: md5
+      md5: 0638bfeab66f0ae59919942ea1312c18
+      size: 2148
+    params:
+      params.yaml:
+        data.raw_path: data/raw/creditcard.csv
+    outs:
+    - path: data/raw/creditcard.csv
+      hash: md5
+      md5: 9cdef7967af55b32a2f8a86fb08f5d7f
+      size: 168171130
+  validate:
+    cmd: python -m src.data.validate
+    deps:
+    - path: data/raw/creditcard.csv
+      hash: md5
+      md5: 9cdef7967af55b32a2f8a86fb08f5d7f
+      size: 168171130
+    - path: src/data/validate.py
+      hash: md5
+      md5: 4ed6260225f4db9971f39b649ef8d8b1
+      size: 1830
+    params:
+      params.yaml:
+        data:
+          raw_path: data/raw/creditcard.csv
+          processed_path: data/processed
+          test_size: 0.2
+          val_size: 0.1
+          random_state: 42
+        features:
+          drop_columns:
+          - Time
+          target_column: Class
+          scaling_method: standard
+  preprocess:
+    cmd: python -m src.data.preprocess
+    deps:
+    - path: data/raw/creditcard.csv
+      hash: md5
+      md5: 9cdef7967af55b32a2f8a86fb08f5d7f
+      size: 168171130
+    - path: src/data/preprocess.py
+      hash: md5
+      md5: 2e6c729adf53f0de9d87b8051a71c97f
+      size: 2391
+    - path: src/data/validate.py
+      hash: md5
+      md5: 4ed6260225f4db9971f39b649ef8d8b1
+      size: 1830
+    params:
+      params.yaml:
+        data:
+          raw_path: data/raw/creditcard.csv
+          processed_path: data/processed
+          test_size: 0.2
+          val_size: 0.1
+          random_state: 42
+        features:
+          drop_columns:
+          - Time
+          target_column: Class
+          scaling_method: standard
+    outs:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 3db03c4ba8ca60bd0a02069111dc87af
+      size: 31912243
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: fd60dbd09d5aa5cdf919eee1c10198a8
+      size: 111692645
+    - path: data/processed/X_val.csv
+      hash: md5
+      md5: 1ee54f54e0dcfdc666ca567fcda045ee
+      size: 15956081
+    - path: data/processed/scaler.pkl
+      hash: md5
+      md5: 89c31f0ea22581987d0abecd03803e52
+      size: 927
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: 2da48f5787220fce144c581a726064bb
+      size: 113930
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: ffe1b7a2c6b159cdaa3c0ae072e53e0d
+      size: 398734
+    - path: data/processed/y_val.csv
+      hash: md5
+      md5: b74cc5080748a2a2454d765b65131504
+      size: 56968
+  train:
+    cmd: python -m src.models.train
+    deps:
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: fd60dbd09d5aa5cdf919eee1c10198a8
+      size: 111692645
+    - path: data/processed/X_val.csv
+      hash: md5
+      md5: 1ee54f54e0dcfdc666ca567fcda045ee
+      size: 15956081
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: ffe1b7a2c6b159cdaa3c0ae072e53e0d
+      size: 398734
+    - path: data/processed/y_val.csv
+      hash: md5
+      md5: b74cc5080748a2a2454d765b65131504
+      size: 56968
+    - path: src/models/train.py
+      hash: md5
+      md5: 455a57341f485ed7bef8efb79342a61d
+      size: 4482
+    params:
+      params.yaml:
+        model:
+          type: xgboost
+          params:
+            n_estimators: 200
+            max_depth: 6
+            learning_rate: 0.1
+            min_child_weight: 3
+            subsample: 0.8
+            colsample_bytree: 0.8
+            scale_pos_weight: 50
+            eval_metric: aucpr
+            random_state: 42
+            n_jobs: -1
+        training:
+          experiment_name: fraud-detection
+          cv_folds: 5
+          early_stopping_rounds: 20
+    outs:
+    - path: metrics/train_metrics.json
+      hash: md5
+      md5: be047c1c7b7a612fe7a5ea2da9c38b72
+      size: 307
+    - path: models/model.pkl
+      hash: md5
+      md5: 39ad706a55bf1806daff355f234de9a4
+      size: 644882
+  evaluate:
+    cmd: python -m src.models.evaluate
+    deps:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 3db03c4ba8ca60bd0a02069111dc87af
+      size: 31912243
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: 2da48f5787220fce144c581a726064bb
+      size: 113930
+    - path: models/model.pkl
+      hash: md5
+      md5: 39ad706a55bf1806daff355f234de9a4
+      size: 644882
+    - path: src/models/evaluate.py
+      hash: md5
+      md5: 00a811dfa354fa454b3fbe021937c98d
+      size: 3375
+    outs:
+    - path: metrics/confusion_matrix.json
+      hash: md5
+      md5: ac645d6ca2270ed9b97d550d66b39046
+      size: 98
+    - path: metrics/eval_metrics.json
+      hash: md5
+      md5: 082b6b76a4525c434d787724d6ddab76
+      size: 233
+    - path: metrics/roc_curve.json
+      hash: md5
+      md5: f5bde8d2735a83c0d68aa88699c1554a
+      size: 6677

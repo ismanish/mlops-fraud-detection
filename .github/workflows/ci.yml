@@ -1,0 +1,41 @@
+name: CI — Lint & Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install ruff black mypy
+      - name: Ruff
+        run: ruff check src/ tests/
+      - name: Black
+        run: black --check src/ tests/
+      - name: Mypy
+        run: mypy src/ --ignore-missing-imports
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Unit tests
+        run: pytest tests/unit/ -m unit -v --tb=short
+      - name: Integration tests
+        run: pytest tests/integration/ -m integration -v --tb=short

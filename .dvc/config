@@ -1,0 +1,5 @@
+[core]
+    remote = s3remote
+['remote "s3remote"']
+    url = s3://mlops-fraud-detection-011015903780/dvc-store
+    region = us-east-1

@@ -1,0 +1,10 @@
+{
+  "precision": 1.0,
+  "recall": 0.12244897959183673,
+  "f1": 0.21818181818181817,
+  "auc_roc": 0.9828595689823482,
+  "avg_precision": 0.5271380333197426,
+  "test_samples": 56962,
+  "fraud_count": 98,
+  "predicted_fraud_count": 12
+}

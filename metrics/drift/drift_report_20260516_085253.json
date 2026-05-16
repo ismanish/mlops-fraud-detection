@@ -1,0 +1,241 @@
+{
+  "timestamp": "2026-05-16T08:52:52.420088",
+  "features": {
+    "V1": {
+      "ks_statistic": 0.001779,
+      "ks_pvalue": 0.99895,
+      "psi": 3.8e-05,
+      "drifted": false,
+      "ref_mean": -0.000422,
+      "cur_mean": 0.000265
+    },
+    "V2": {
+      "ks_statistic": 0.005634,
+      "ks_pvalue": 0.119628,
+      "psi": 0.000363,
+      "drifted": false,
+      "ref_mean": 0.004004,
+      "cur_mean": -0.004252
+    },
+    "V3": {
+      "ks_statistic": 0.002398,
+      "ks_pvalue": 0.960358,
+      "psi": 0.000116,
+      "drifted": false,
+      "ref_mean": 0.001321,
+      "cur_mean": 0.001749
+    },
+    "V4": {
+      "ks_statistic": 0.006713,
+      "ks_pvalue": 0.036716,
+      "psi": 0.000254,
+      "drifted": true,
+      "ref_mean": -0.004353,
+      "cur_mean": 0.008475
+    },
+    "V5": {
+      "ks_statistic": 0.003785,
+      "ks_pvalue": 0.548182,
+      "psi": 0.000157,
+      "drifted": false,
+      "ref_mean": -0.004851,
+      "cur_mean": -0.00059
+    },
+    "V6": {
+      "ks_statistic": 0.004842,
+      "ks_pvalue": 0.249208,
+      "psi": 0.000112,
+      "drifted": false,
+      "ref_mean": 0.003883,
+      "cur_mean": -0.003325
+    },
+    "V7": {
+      "ks_statistic": 0.004357,
+      "ks_pvalue": 0.368412,
+      "psi": 0.000146,
+      "drifted": false,
+      "ref_mean": 0.001535,
+      "cur_mean": -0.002803
+    },
+    "V8": {
+      "ks_statistic": 0.003225,
+      "ks_pvalue": 0.744881,
+      "psi": 7.3e-05,
+      "drifted": false,
+      "ref_mean": 0.003207,
+      "cur_mean": -0.001066
+    },
+    "V9": {
+      "ks_statistic": 0.003586,
+      "ks_pvalue": 0.617691,
+      "psi": 0.00013,
+      "drifted": false,
+      "ref_mean": 0.002452,
+      "cur_mean": 0.000219
+    },
+    "V10": {
+      "ks_statistic": 0.003518,
+      "ks_pvalue": 0.641874,
+      "psi": 0.000132,
+      "drifted": false,
+      "ref_mean": -0.002176,
+      "cur_mean": -0.004697
+    },
+    "V11": {
+      "ks_statistic": 0.004135,
+      "ks_pvalue": 0.433809,
+      "psi": 0.000273,
+      "drifted": false,
+      "ref_mean": -8.1e-05,
+      "cur_mean": 0.004209
+    },
+    "V12": {
+      "ks_statistic": 0.004497,
+      "ks_pvalue": 0.330724,
+      "psi": 0.000351,
+      "drifted": false,
+      "ref_mean": -0.003735,
+      "cur_mean": -0.002406
+    },
+    "V13": {
+      "ks_statistic": 0.004457,
+      "ks_pvalue": 0.341393,
+      "psi": 0.000334,
+      "drifted": false,
+      "ref_mean": 0.001746,
+      "cur_mean": 0.003288
+    },
+    "V14": {
+      "ks_statistic": 0.004524,
+      "ks_pvalue": 0.323878,
+      "psi": 0.000211,
+      "drifted": false,
+      "ref_mean": -0.005049,
+      "cur_mean": 0.003409
+    },
+    "V15": {
+      "ks_statistic": 0.004021,
+      "ks_pvalue": 0.469556,
+      "psi": 0.000217,
+      "drifted": false,
+      "ref_mean": 0.000718,
+      "cur_mean": -0.006119
+    },
+    "V16": {
+      "ks_statistic": 0.004101,
+      "ks_pvalue": 0.444277,
+      "psi": 0.000275,
+      "drifted": false,
+      "ref_mean": 0.001854,
+      "cur_mean": -0.002907
+    },
+    "V17": {
+      "ks_statistic": 0.003049,
+      "ks_pvalue": 0.803333,
+      "psi": 0.000146,
+      "drifted": false,
+      "ref_mean": 0.000518,
+      "cur_mean": -0.002523
+    },
+    "V18": {
+      "ks_statistic": 0.004486,
+      "ks_pvalue": 0.333569,
+      "psi": 0.000123,
+      "drifted": false,
+      "ref_mean": 0.003006,
+      "cur_mean": -0.000573
+    },
+    "V19": {
+      "ks_statistic": 0.008211,
+      "ks_pvalue": 0.00506,
+      "psi": 0.000281,
+      "drifted": true,
+      "ref_mean": -0.002083,
+      "cur_mean": 0.010178
+    },
+    "V20": {
+      "ks_statistic": 0.002825,
+      "ks_pvalue": 0.870208,
+      "psi": 0.000147,
+      "drifted": false,
+      "ref_mean": -0.000386,
+      "cur_mean": 0.001772
+    },
+    "V21": {
+      "ks_statistic": 0.003672,
+      "ks_pvalue": 0.587488,
+      "psi": 0.0001,
+      "drifted": false,
+      "ref_mean": -0.000137,
+      "cur_mean": 0.007106
+    },
+    "V22": {
+      "ks_statistic": 0.003374,
+      "ks_pvalue": 0.692915,
+      "psi": 0.000131,
+      "drifted": false,
+      "ref_mean": -0.002578,
+      "cur_mean": -0.000369
+    },
+    "V23": {
+      "ks_statistic": 0.003505,
+      "ks_pvalue": 0.646308,
+      "psi": 0.000123,
+      "drifted": false,
+      "ref_mean": -0.000509,
+      "cur_mean": 0.002067
+    },
+    "V24": {
+      "ks_statistic": 0.002452,
+      "ks_pvalue": 0.952113,
+      "psi": 6.9e-05,
+      "drifted": false,
+      "ref_mean": 0.00296,
+      "cur_mean": 0.003763
+    },
+    "V25": {
+      "ks_statistic": 0.002718,
+      "ks_pvalue": 0.897958,
+      "psi": 0.000104,
+      "drifted": false,
+      "ref_mean": 0.000662,
+      "cur_mean": 0.000277
+    },
+    "V26": {
+      "ks_statistic": 0.00383,
+      "ks_pvalue": 0.532868,
+      "psi": 5.9e-05,
+      "drifted": false,
+      "ref_mean": 0.001149,
+      "cur_mean": 0.004611
+    },
+    "V27": {
+      "ks_statistic": 0.005891,
+      "ks_pvalue": 0.091998,
+      "psi": 0.000251,
+      "drifted": false,
+      "ref_mean": 0.000506,
+      "cur_mean": -0.005175
+    },
+    "V28": {
+      "ks_statistic": 0.005866,
+      "ks_pvalue": 0.0944,
+      "psi": 0.000236,
+      "drifted": false,
+      "ref_mean": 0.002798,
+      "cur_mean": -0.003807
+    },
+    "Amount": {
+      "ks_statistic": 0.004622,
+      "ks_pvalue": 0.29929,
+      "psi": 0.000159,
+      "drifted": false,
+      "ref_mean": -0.0,
+      "cur_mean": 0.001825
+    }
+  },
+  "drifted": true,
+  "n_features_drifted": 2,
+  "n_features_total": 29,
+  "drift_ratio": 0.069
+}

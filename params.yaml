@@ -1,0 +1,49 @@
+data:
+  raw_path: data/raw/creditcard.csv
+  processed_path: data/processed
+  test_size: 0.2
+  val_size: 0.1
+  random_state: 42
+
+features:
+  drop_columns:
+    - Time
+  target_column: Class
+  scaling_method: standard
+
+model:
+  type: xgboost
+  params:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.1
+    min_child_weight: 3
+    subsample: 0.8
+    colsample_bytree: 0.8
+    scale_pos_weight: 50
+    eval_metric: aucpr
+    random_state: 42
+    n_jobs: -1
+
+training:
+  experiment_name: fraud-detection
+  cv_folds: 5
+  early_stopping_rounds: 20
+
+thresholds:
+  min_recall: 0.02
+  min_precision: 0.50
+  min_f1: 0.03
+  min_auc_roc: 0.90
+
+monitoring:
+  drift_threshold: 0.05
+  performance_window_days: 7
+  alert_on_drift: true
+
+aws:
+  region: us-east-1
+  s3_bucket: mlops-fraud-detection-011015903780
+  ecr_repository: mlops-fraud-detection
+  lambda_function: mlops-fraud-prediction
+  api_name: fraud-detection-api
